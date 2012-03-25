@@ -1,0 +1,80 @@
+/* Mini reset */
+.DatePicker * {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.DatePicker {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #eee;
+	background: #fff;
+}
+
+.DatePicker .Month thead tr th {
+	text-align: center;
+}
+
+.DatePicker .MonthBox .MonthName {
+	text-align: center;
+}
+
+.DatePicker .Month {
+	border-collapse: separate;
+	border-spacing: 4px;
+}
+
+.DatePicker .Month td {
+	text-align: center;
+	padding: 2px;
+	border: 1px solid #eee;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.DatePicker .Month td:hover {
+	cursor: pointer;
+}
+
+.MonthBox {
+	position: relative;
+}
+
+.DatePicker .NavigationButton {
+	cursor: pointer;
+}
+
+.DatePicker .PrevMonthButton {
+	top: 0;
+	left: 5px;
+}
+
+.DatePicker .NextMonthButton {
+	top: 0;
+	right: 5px;
+}
+
+.DatePicker .MonthBox .Month .Today {
+	background: lightyellow;
+}
+
+.DatePicker .NextDayMonth,
+.DatePicker .PreviousDayMonth {
+	opacity: 0.4;
+}
+
+.DatePicker .ArrowUp, 
+.DatePicker .ArrowDown {
+	display: inline-block;
+	cursor: pointer;
+	border: 1px solid #eee;
+	border-radius: 1px;
+}
+
+.DatePicker .InputTimeBox {
+	/*width: 20px;*/
+}
+

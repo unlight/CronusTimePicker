@@ -1,0 +1,381 @@
+body {
+	color: #000;
+	font-family: Verdana,Geneva,Kalimati,sans-serif;
+	font-size: 75%;
+	line-height: 1.2em;
+	background: #fff;
+	margin: 0;
+	padding: 0;
+	font-size: small;
+}
+
+#Body {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+#Content {
+	float: right;
+	width: 730px;
+	margin: 0 0 40px;
+}
+
+.Hidden {
+	display: none;
+}
+
+.NoWrap {
+	white-space: nowrap;
+}
+
+.Center {
+	text-align: center;
+}
+
+.Right {
+	text-align: right;
+}
+
+h1, h2 {
+	margin: 0.5em 0;
+	padding-bottom: 0.2em;
+	border-bottom: 1px solid #eee;
+}
+
+p {
+	margin: 0.8em 0;
+}
+
+.P {
+	margin: 0.8em 0;
+}
+
+h3 {
+	font-size:120%;
+}
+
+h4 {
+	font-size: 120%;
+}
+
+h5 {
+	font-size: 120%;
+}
+
+a {
+	text-decoration: none;
+	color: #1e79a7;
+}
+
+a:hover {
+	color: #ff0084;
+}
+
+img.Thumbnail {
+	max-height: 300px;
+	max-width: 100px;
+	float: left;
+	margin: 0 16px 0 0;
+}
+input.DateBox,
+input.InputBox,
+input.SmallInput,
+textarea {
+	font-family: 'lucida grande','Lucida Sans Unicode', tahoma, sans-serif;
+	color: #333;
+	font-size: 15px;
+	padding: 3px;
+	margin: 0;
+	width: 250px;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset; 
+	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
+	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
+	background: #fff;
+	border: 1px solid #999;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+	padding: 3px;	
+}
+textarea.TextBox {
+	width: 500px;
+	height: 100px;
+	min-height: 100px;
+}
+.TextBoxWrapper {
+	width: auto;
+	padding-right: 8px;
+}
+.TextBoxWrapper textarea {
+	width: 100%;
+}
+#Popup textarea.TextBox {
+	width: 100%;
+}
+input.SmallInput,
+input.InputBox {
+	padding: 6px 3px;
+}
+input.SmallInput:focus,
+input.InputBox:focus,
+textarea:focus {
+	background: #ffe;
+}
+input.BigInput {
+	width: 100%;
+}
+textarea {
+	line-height: 128%;
+}
+select {
+	font-family: arial;
+	font-size: 14px;
+	color: #222;
+	margin: 0;
+	padding: 3px;
+	}
+a.Button,
+.Button {
+	cursor: pointer;
+	margin: 0;
+	font-size: 11px;
+	padding: 4px 6px;
+	background: #f8f8f8;
+	background:-webkit-gradient(linear, center bottom, center top, from(#cccccc), to(#ffffff));
+	background:-moz-linear-gradient(top, #ffffff, #cccccc);
+	-pie-background:linear-gradient(top, #ffffff, #cccccc);
+	background:linear-gradient(top, #ffffff, #cccccc);
+	color: #02475A;
+	text-shadow: 0 1px 0 #fff;
+	border: 1px solid #999;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	box-shadow: 0px 0px 1px #999;
+	-moz-box-shadow: 0px 0px 1px #999;
+	-webkit-box-shadow: 0px 0px 1px #999;
+	white-space: nowrap;
+}
+a.Button {
+	display: inline-block;
+	padding: 4px;
+	line-height: 100%;
+	margin: 3px auto;
+}
+input.Button {
+	font-size: 14px;
+	font-weight: bold;
+}
+.Button:hover {
+	color: #111;
+	border: 1px solid #666;
+}
+.Button:focus {
+	background: #eee;
+}
+.Buttons {
+	margin-top: 10px;
+}
+.Loading {
+	height: 100px;
+	padding: 0 20px;
+	background: url('images/progress.gif') center center no-repeat;
+}
+.Progress {
+	padding: 10px 40px 10px 0;
+	background: url('images/progress.gif') center center no-repeat;
+}
+.TinyProgress {
+	padding: 10px 40px 10px 0;
+	background: url('images/progress_sm.gif') center center no-repeat;
+}
+.InProgress {
+	color: transparent !Important;
+	background: url('images/progress_sm.gif') center center no-repeat !important;
+	border-color: transparent !important;
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	color: transparent !important;
+	text-shadow: none !important;
+}
+.Conversations .Deleted {
+	text-decoration: line-through;
+}
+.Deleted {
+	background: #f5f5f5;
+	border: 1px solid #dddddd;
+	margin: 10px 0 0;
+	padding: 6px 10px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+/* Note: Warning, Alert & Info are simple boxes that can be used to wrap message
+	strings & imply importance. */
+.Warning {
+	background: #fee;
+	border: 2px solid #fbb;
+	color: #d00;
+	padding: 6px 8px;
+	margin: 10px 0;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+.Count {
+	background: #444;
+	background-color: rgba(0, 0, 0, 0.6);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 80%;
+	font-weight: normal;
+	padding: 1px .8ex;
+}
+.Alert {
+	background: #d00;
+	color: #fff;
+	padding: 1px 4px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.Alert a {
+	color: #fff;
+}
+.Alert a:hover {
+	text-decoration: underline;
+}
+.Info {
+	font-size: 13px;
+	background: #fafafa;
+	border: 2px solid #eee;
+	border: 2px solid rgba(0,0,0,0.1);
+	color: #888;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	padding: 6px 8px;
+	margin: 10px 0;
+}
+.Info strong {
+	font-weight: bold;
+}
+
+#PagerLess {
+	-moz-border-radius-topright: 2px;
+	-moz-border-radius-topleft: 2px;
+	-webkit-border-top-right-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+	border-radius-topright: 2px;
+	border-radius-topleft: 2px;
+	margin-bottom: 1px;
+	text-align: left;
+}
+.MorePager a.Loading {
+	border: 0 !important;
+	padding: 0 20px !important;
+	background: url('images/progress.gif') center center no-repeat !important;
+}
+
+
+.Pager {
+	font-weight: bold;
+	float: right;
+	
+}
+.Pager a, .Pager span {
+	display: inline-block;
+	margin: 0 3px;
+}
+.Pager span {
+	color: #777;
+}
+.Pager .Highlight {
+	color: #000;
+}
+/* Small UserPhoto() images */
+a.Small:hover {
+	text-decoration: none;
+}
+a.Small img {
+	background: none;
+	text-indent: -100px;
+	background: #ddd;
+	display: inline-block;
+	height: 24px;
+	width: 24px;
+	overflow: hidden;
+}
+
+/* Note: The MessageModule (in /applications/dashboard/modules) wraps all messages
+	that it renders in a div with this DismissMessage class. */
+/* Messages */
+.DismissMessage a.Dismiss {
+	font-family: arial;
+	position: absolute;
+	font-size: 22px;
+	font-weight: bold;
+	line-height: 1;
+	color: #999;
+	top: 3px;
+	right: 5px;
+}
+.DismissMessage a.Dismiss,
+.DismissMessage a.Dismiss:hover {
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	color: #777;
+	display: block;
+	height:14px;
+	margin:0;
+	padding:1px 3px 2px 4px;
+	width:auto;
+	font-family:arial;
+	font-size:16px;
+	font-weight:bold;
+	right: -1px;
+	top: -1px;
+}
+.DismissMessage strong,
+.DismissMessage b {
+	font-weight: bold;
+}
+.DismissMessage a.Dismiss:hover {
+	text-decoration: none;
+	border: none;
+	background: #333;
+	color: #fff;
+}
+.DismissMessage {
+	font-size: 13px;
+	text-align: left;
+	position: relative;
+	color: #000;
+	border: none;
+	border-radius: 1;
+	-moz-border-radius: 1;
+	-webkit-border-radius: 1;
+	margin: 0 0 10px;
+	padding: 10px;
+}
+.CasualMessage {
+	background: #CFECFF;
+	border: 1px solid #ABDAFB;
+	color: #1E79A7;
+}
+.InfoMessage {
+	background: #F6F6F6;
+	border: 1px solid #ddd;
+}
+.AlertMessage {
+	background: #fff8ce;
+	border: 1px solid #DEDDAF;
+}
+.WarningMessage {
+	background: #ffebe9;
+	border: 1px solid #FFCCC9;
+}
