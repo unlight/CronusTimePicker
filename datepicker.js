@@ -35,6 +35,26 @@
 	};
 	if (typeof $.dateFormat == 'undefined' || typeof $.dateFormat.i18n == 'undefined') dateFormat.i18n = dateFormati18n;
 	
+	// Other global functions.
+	var UniqueID = function() {
+		return new Date().getTime();
+	};
+	
+	var LeadingZeros = function(N) {
+		return ('0'+N).substr(-2);
+	};
+	
+	var Wrap = function(NewString, Tag, Attributes) {
+		if (!Tag) return NewString;
+		var NewAttributes = '';
+		if (typeof Attributes == 'object') {
+			$.each(Attributes, function(Index, Value){
+				NewAttributes += ' ' + Index + '="' + Value + '"';
+			});				
+		}
+		return '<' + Tag + NewAttributes + '>' + NewString + '</' + Tag + '>';
+	};
+	
 	// Pre Initializtion.
 	var Today = new Date();
 
@@ -67,20 +87,6 @@
 		};
 
 		// Private methods.
-		var LeadingZeros = function(N) {
-			return ('0'+N).substr(-2);
-		};
-		
-		var Wrap = function(NewString, Tag, Attributes) {
-			if (!Tag) return NewString;
-			var NewAttributes = '';
-			if (typeof Attributes == 'object') {
-				$.each(Attributes, function(Index, Value){
-					NewAttributes += ' ' + Index + '="' + Value + '"';
-				});				
-			}
-			return '<' + Tag + NewAttributes + '>' + NewString + '</' + Tag + '>';
-		};
 		
 		var C = function(Name, Default) {
 			if (Default == undefined) Default = false;
@@ -119,7 +125,9 @@
 			
 			var MonthHtml = '<thead><tr>';
 			var MonthTitle = dateFormat(DateMonth, C('MonthNameFormat'));
-			MonthHtml += Wrap(MonthTitle, 'th', {'colspan': 7, 'class': 'MonthName'});
+			MonthHtml += Wrap('<span class="ClearButton">Clear</span>', 'th');
+			MonthHtml += Wrap(MonthTitle, 'th', {'colspan': 5, 'class': 'MonthName'});
+			MonthHtml += Wrap('<span class="CloseButton">Close</span>', 'th');
 	
 			// Control buttons.
 			MonthHtml += '</tr>';
@@ -190,6 +198,25 @@
 			MonthBox.replaceWith(NextMonthHtml);
 		};
 		
+		// Post Initializtion.
+		
+		if (C('Inline')) $(Element).replaceWith(Html);
+		else if (C('OnBlur')) {
+			var position = $(Element).position();
+			$Calendar = $(Html);
+			$Calendar.css({position: 'absolute'});
+			$Calendar.css('top', position.top + $(Element).height());
+			$Calendar.css('left', position.left);
+			$(Element).focus(function(){
+				$Calendar.appendTo('body').show();
+			})
+			.blur(function(){
+				//$Calendar.fadeOut();
+			});
+			//$Calendar.find('td').click();
+			Self.Close();
+		}
+		
 		// Event bindings.
 
 		$Calendar.find('.PrevMonthButton, .NextMonthButton').live('click', GetNewMonthData);
@@ -212,30 +239,20 @@
 			Self.Close();
 			return false;
 		});
-		
-		// Post Initializtion.
-		
-		if (C('Inline')) $(Element).replaceWith(Html);
-		else if (C('OnBlur')) {
-			var position = $(Element).position();
-			$Calendar = $(Html);
-			$Calendar.css({position: 'absolute'});
-			$Calendar.css('top', position.top + $(Element).height());
-			$Calendar.css('left', position.left);
-			$(Element).focus(function(){
-				$Calendar.appendTo('body').show();
-			})
-			.blur(function(){
-				//$Calendar.fadeOut();
-			});
-			//$Calendar.find('td').click();
-		}
 	
-		return $(Element);
+		return Element;
 	}
 	
 	$.fn.DatePicker = function(Settings) {
+		//console.log(this);
+		this.data('DatePicker', true);
 		return DatePicker(this, Settings);
 	}
+	
+/*	$(document).bind('click', function(e){
+		if (!$(e.target).data('DatePicker')) {
+			$('body > div.DatePicker').remove();
+		}
+	});*/
 
 })(jQuery);

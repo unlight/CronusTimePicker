@@ -78,3 +78,16 @@
 	/*width: 20px;*/
 }
 
+.DatePicker .CloseButton, .DatePicker .ClearButton {
+	cursor: pointer;
+	text-decoration: none;
+	text-transform: lowercase;
+	font-size: 9px;
+	font-weight: normal;
+	border: 1px solid #eee;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;	
+	padding: 0 2px;
+}
+
