@@ -1,4 +1,5 @@
 (function($){
+	"use strict";
 	
 	// Vendors.
 	
@@ -33,9 +34,10 @@
 			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 		]
 	};
-	if (typeof $.dateFormat == 'undefined' || typeof $.dateFormat.i18n == 'undefined') dateFormat.i18n = dateFormati18n;
+	if ($.dateFormat == undefined || $.dateFormat.i18n == undefined) dateFormat.i18n = dateFormati18n;
 	
-	// Other global functions.
+	// Useful functions.
+	
 	var UniqueID = function() {
 		return new Date().getTime();
 	};
@@ -55,21 +57,23 @@
 		return '<' + Tag + NewAttributes + '>' + NewString + '</' + Tag + '>';
 	};
 	
-	// Pre Initializtion.
+	// Pre initializtion.
 	var Today = new Date();
+	
+	var GetViewingDateObject = function(Sender, Offset, Day) {
+		if (!Day) Day = 1;
+		if ($(Sender).is('.PreviousDayMonth')) Offset = Offset - 1;
+		else if ($(Sender).is('.NextDayMonth')) Offset = Offset + 1;
+		var TableMonth = $(Sender).parents('.DatePicker').find('table');
+		var ViewingMonth = Number(TableMonth.attr('data-month'))
+		var ViewingYear = Number(TableMonth.attr('data-year'));
+		if (!Offset) Offset = 0;
+		return new Date(ViewingYear, ViewingMonth + Offset, Day);
+	};
 
 	// DatePicker class.
 	
 	function DatePicker(Element, Settings) {
-		// Pre initializtion.
-		var ElementDate, ElementDateValue;
-		if ($(Element).is(':input')) {
-			ElementDateValue = $(Element).val();
-		} else throw new Error("Invalid element.");
-		
-		ElementDate = new Date(ElementDateValue);
-		ElementDateGetTime = ElementDate.getTime();
-		if (ElementDateGetTime == 0 || isNaN(ElementDateGetTime)) ElementDate = new Date();
 		
 		// Initializtion.
 		var Self = this;
@@ -79,12 +83,9 @@
 			Format: 'isoDate',
 			Inline: false
 		};
+		
+		// Preferences.
 		Self.Preferences = $.extend({ }, Configuration, Settings);
-
-		// Public methods.
-		Self.Close = function(){
-			$Calendar.hide().remove();
-		};
 
 		// Private methods.
 		
@@ -95,12 +96,12 @@
 			return Result;
 		};
 		
-		var GetMonthBox = function(DateMonth) {
+		var GetMonthHtml = function(DateMonth) {
 			var bCurrentMonth = (Today.getFullYear() == DateMonth.getFullYear() && DateMonth.getMonth() == Today.getMonth());
 			var DayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 			if (!(DateMonth instanceof Date)) throw new Error("Fatal error in DatePicker.DrawMonth(): DateMonth is not an object.");
 			
-			// GetMonthSequence
+			// Month sequence.
 			var Year = DateMonth.getFullYear();
 			var Month = DateMonth.getMonth();
 			var FirstDay = new Date(Year, Month, 1);
@@ -128,7 +129,7 @@
 			MonthHtml += Wrap('<span class="ClearButton">Clear</span>', 'th');
 			MonthHtml += Wrap(MonthTitle, 'th', {'colspan': 5, 'class': 'MonthName'});
 			MonthHtml += Wrap('<span class="CloseButton">Close</span>', 'th');
-	
+
 			// Control buttons.
 			MonthHtml += '</tr>';
 			MonthHtml += '<tr>';
@@ -157,29 +158,6 @@
 			return MonthHtml;
 		};
 		
-		var GetViewingDateObject = function(Sender, Offset, Day){
-			if (!Day) Day = 1;
-			if ($(Sender).is('.PreviousDayMonth')) Offset = Offset - 1;
-			else if ($(Sender).is('.NextDayMonth')) Offset = Offset + 1;
-			var TableMonth = $(Sender).parents('.DatePicker').find('table');
-			var ViewingMonth = Number(TableMonth.attr('data-month'))
-			var ViewingYear = Number(TableMonth.attr('data-year'));
-			if (!Offset) Offset = 0;
-			return new Date(ViewingYear, ViewingMonth + Offset, Day);
-		};
-
-		var Html = GetMonthBox(ElementDate);
-
-		if (C('bPickTime')) {
-			var TimeBoxHtml = Wrap('', 'input', {'class': 'InputTimeBox', value: dateFormat(ElementDate, 'isoTime')});	
-			Html += '<div class="TimeBox">Time: ' + TimeBoxHtml + '</div>';
-		}
-		
-		Html = Wrap(Html, 'div', {'class': 'DatePicker'});
-		var $Calendar = $(Html);
-		
-		// Event helpers.
-		
 		var GetNewMonthData = function(NextDate){
 			if (!(NextDate instanceof Date)) {
 				var Offset;
@@ -191,63 +169,92 @@
 				else throw new Error("Unknow button class.");
 				NextDate = GetViewingDateObject(this, Offset);
 			}
-
-			var NextMonthHtml = GetMonthBox(NextDate);
-			var MonthBox = $Calendar.find('.MonthBox');
-			if (MonthBox.size() == 0) throw new Error("Fatal error in DatePicker.GetNewMonthData(): [div.MonthBox] not found.");
-			MonthBox.replaceWith(NextMonthHtml);
+			var SelfSelector = 'div.DatePicker';
+			var DatePickerBox = $(this).is(SelfSelector) ? this : $(this).parents(SelfSelector);
+			if (DatePickerBox.length == 0) throw new Error("Fatal error in DatePicker.GetNewMonthData(): [div.DatePicker] not found.");
+			var NextMonthHtml = GetMonthHtml(NextDate);
+			DatePickerBox.html(NextMonthHtml);
+			
+			$('.PrevMonthButton', DatePickerBox).bind('click', GetNewMonthData);
+			$('.NextMonthButton', DatePickerBox).bind('click', GetNewMonthData);
+			$('.PrevYearButton', DatePickerBox).bind('click', GetNewMonthData);
+			$('.NextYearButton', DatePickerBox).bind('click', GetNewMonthData);
+			$('.TodayButton', DatePickerBox).bind('click', function(){
+				GetNewMonthData.call(this, Today);
+			});
+			$('td', DatePickerBox).bind('click', function(){
+				var Day = $(this).html();
+				var ViewingDate = GetViewingDateObject(this, 0, Day);
+				var Time = DatePickerBox.find('.InputTimeBox').val();
+				if (Time) {
+					Time = Time.split(':');
+					ViewingDate.setHours(Time[0]);
+					ViewingDate.setMinutes(Time[1]);
+					ViewingDate.setSeconds(Time[2]);
+				}
+				$(Element).val( dateFormat(ViewingDate, C('Format')) );
+				Self.Close();
+				return false;
+			});
+			$('.CloseButton').bind('click', Self.Close);
+			$('.ClearButton').bind('click', Self.Clear);
 		};
 		
-		// Post Initializtion.
-		
-		if (C('Inline')) $(Element).replaceWith(Html);
-		else if (C('OnBlur')) {
-			var position = $(Element).position();
-			$Calendar = $(Html);
-			$Calendar.css({position: 'absolute'});
-			$Calendar.css('top', position.top + $(Element).height());
-			$Calendar.css('left', position.left);
-			$(Element).focus(function(){
-				$Calendar.appendTo('body').show();
-			})
-			.blur(function(){
-				//$Calendar.fadeOut();
+		// Public methods.
+		Self.Close = function(){
+			Calendar.fadeOut('fast', function(){
+				$(this).remove();
 			});
-			//$Calendar.find('td').click();
+		}
+		
+		Self.Clear = function() {
+			$(Element).val('');
 			Self.Close();
 		}
 		
-		// Event bindings.
-
-		$Calendar.find('.PrevMonthButton, .NextMonthButton').live('click', GetNewMonthData);
-		$Calendar.find('.PrevYearButton, .NextYearButton').live('click', GetNewMonthData);
-		$Calendar.find('.TodayButton').live('click', function(){
-			GetNewMonthData(new Date());
+		Self.Open = function() {
+			Calendar.appendTo('body');
+			var ElementDateValue;
+			if ($(Element).is(':input')) {
+				ElementDateValue = $(Element).val();
+			} else throw new Error("Invalid element.");
+			// Get date from input element.
+			var ElementDate = new Date(ElementDateValue);
+			var ElementDateGetTime = ElementDate.getTime();
+			if (ElementDateGetTime == 0 || isNaN(ElementDateGetTime)) ElementDate = new Date();
+			GetNewMonthData.call(Calendar, ElementDate);
+			Calendar.fadeIn('fast');
+		}
+	
+		// Post initializtion.
+		var Calendar = $('<div class="DatePicker"/>').hide();
+		var position = $(Element).position();
+		Calendar.css('position', 'absolute');
+		Calendar.css('top', position.top + $(Element).outerHeight());
+		Calendar.css('left', position.left);
+		
+		$(Element).focus(function(){
+			Self.Open();
 		});
 		
-		$Calendar.find('td').live('click', function(){
-			var Day = $(this).html();
-			var ViewingDate = GetViewingDateObject(this, 0, Day);
-			var Time = $Calendar.find('.InputTimeBox').val();
-			if (Time) {
-				Time = Time.split(':');
-				ViewingDate.setHours(Time[0]);
-				ViewingDate.setMinutes(Time[1]);
-				ViewingDate.setSeconds(Time[2]);
-			}
-			$(Element).val( dateFormat(ViewingDate, C('Format')) );
-			Self.Close();
-			return false;
-		});
-	
-		return Element;
+
+
+
 	}
 	
-	$.fn.DatePicker = function(Settings) {
-		//console.log(this);
-		this.data('DatePicker', true);
-		return DatePicker(this, Settings);
-	}
+		
+
+	
+    $.fn.DatePicker = function(Settings) {
+        return this.each(function() {
+            // if plugin has not already been attached to the element
+            if (undefined == $(this).data('DatePicker')) {
+                var Plugin = new DatePicker(this, Settings);
+                $(this).data('DatePicker', Plugin);
+            }
+        });
+
+    }
 	
 /*	$(document).bind('click', function(e){
 		if (!$(e.target).data('DatePicker')) {

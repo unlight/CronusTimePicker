@@ -4,8 +4,3 @@ Range
 Add TimePick
 Buttons: clear
 Fix invalid date error (nextmonth, nextyear)
-
-TODO-DEV
-========
-move GetNewMonthData to up
-move 'Event bindings' to up (use live)
