@@ -2,5 +2,3 @@ TODO
 ====
 Range
 Add TimePick
-Buttons: clear
-Fix invalid date error (nextmonth, nextyear)
