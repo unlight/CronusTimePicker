@@ -1,4 +1,4 @@
-// CronusTimePicker v1.03 (19 Apr 2012)
+// CronusTimePicker v1.03a (19 Apr 2012)
 // https://github.com/search?q=CronusTimePicker
 
 (function($){
@@ -26,6 +26,7 @@
 	
 	// Internationalization strings.
 	var dateFormati18n = {
+		dayHeaders: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
 		dayNames: [
 			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
 			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -61,7 +62,7 @@
 		
 		var GetMonthHtml = function(DateMonth) {
 			var bCurrentMonth = (Today.getFullYear() == DateMonth.getFullYear() && DateMonth.getMonth() == Today.getMonth());
-			var DayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+			var DayNames = dateFormati18n.dayHeaders;
 			if (!(DateMonth instanceof Date)) throw new Error("Fatal error in DatePicker.DrawMonth(): DateMonth is not an object.");
 			
 			// Month sequence.
